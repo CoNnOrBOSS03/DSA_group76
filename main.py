@@ -14,7 +14,7 @@ def getDistance(vertex, lat, lon):
 # return the vertex the closest to some lat/lon coordinate
 # can use this to figure out a defined vertex based on the location the user wants to start from/end at
 def getClosest(gr, lat, lon):
-    #
+    # TODO
     # thinking we iterate through all vertices, find the one where distance from desired coordinates and
     # vertex coordinates is smallest, return it
 
