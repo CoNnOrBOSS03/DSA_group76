@@ -6,6 +6,8 @@ BLUE = "#6e78ff"
 LIGHT_BLUE = "#6C8DFA"
 ORANGE = "#F89246"
 LIGHT_ORANGE = "#FFB449"
+GREEN = "#447241"
+LIGHT_GREEN = "#60a05b"
 
 class MainScreen(CTk):
     def __init__(self):
@@ -53,14 +55,19 @@ class MainScreen(CTk):
         self.middle_grid_frame = CTkFrame(master=self.middle_frame, fg_color="transparent")
         self.start_combobox_label = CTkLabel(master=self.middle_grid_frame, text="Starting Location")
         self.start_combobox = CTkComboBox(master=self.middle_grid_frame, values=LOCATION_NAMES,
-                                          button_color=BLUE, button_hover_color=LIGHT_BLUE)
+                                          border_color=BLUE, button_color=BLUE, button_hover_color=LIGHT_BLUE)
         self.destination_combobox_label = CTkLabel(master=self.middle_grid_frame, text="Destination")
         self.destination_combobox = CTkComboBox(master=self.middle_grid_frame, values=LOCATION_NAMES,
                                                 border_color=ORANGE, button_color=ORANGE, button_hover_color=LIGHT_ORANGE)
+        self.calculate_button = CTkButton(master=self.middle_frame,
+                                          command=lambda: self.calculate_path(self.start_combobox.get(),
+                                                                              self.destination_combobox.get()),
+                                          text="Calculate Path", fg_color=GREEN, hover_color=LIGHT_GREEN)
 
         # right side!
 
         self.right_frame = CTkFrame(master=self)
+
 
         # PLACING WIDGETS
 
@@ -76,8 +83,8 @@ class MainScreen(CTk):
 
         # middle frame
 
-        self.map_label.place(relx=0.1, rely=0.03, relwidth=0.8, relheight=0.05)
         self.middle_frame.place(relx=0.25, rely=0, relwidth=0.5, relheight=1.00)
+        self.map_label.place(relx=0.1, rely=0.03, relwidth=0.8, relheight=0.05)
         self.map_image_label.place(relx=0.05, rely=0.1, relwidth=0.9, relheight=0.5)
 
         self.middle_grid_frame.place(relx=0.1, rely=0.65, relwidth=0.8, relheight=0.15)
@@ -93,14 +100,17 @@ class MainScreen(CTk):
         # right frame
 
         self.right_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1.00)
+        self.calculate_button.pack(side="bottom", pady=50)
+
 
     # methods!
 
-    def calculate_path(self):
+    def calculate_path(self, start, destination):
         # get values from combo boxes
         # check if either are null, if so display error message
         # if not, pass to backend for path calculation
-        pass
+        print(f"Calculating path from {start} to {destination}!")
+
 
 main_screen = MainScreen()
 
