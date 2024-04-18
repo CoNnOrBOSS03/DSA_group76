@@ -9,6 +9,7 @@ LIGHT_ORANGE = "#FFB449"
 GREEN = "#447241"
 LIGHT_GREEN = "#60a05b"
 
+
 class MainScreen(CTk):
     def __init__(self):
         super().__init__()
@@ -24,6 +25,8 @@ class MainScreen(CTk):
         # CTk variables for interactive text and menus
 
         self.map_caption = StringVar(value="Map of Gainesville using Bridges Open Street Map Data")
+        self.adjacency_list_results_text = StringVar(value="Not Calculated")
+        self.adjacency_matrix_results_text = StringVar(value="Not Calculated")
 
         # left side!
         self.left_frame = CTkFrame(master=self)
@@ -35,21 +38,22 @@ class MainScreen(CTk):
         self.names_label = CTkLabel(master=self.left_frame, text="Connor Verra, Andres Cortes")
         self.description_text = CTkTextbox(master=self.left_frame, fg_color="transparent", wrap=WORD)
         self.description_text.insert("0.0",
-                                      "Welcome to Getting Gators Around Gainesville! This application uses Dijkstra's "
-                                      "shortest path algorithm to figure out how to get you to where you want to go"
-                                      " in the shortest path possible! Select a starting point and destination using "
-                                      "the option menus, then hit calculate, and the optimal path will be shown! \n \n"
-                                      "After you've calculated your optimal path, you can compare the calculation"
-                                      " times of this path between graph representations of an adjacency list versus"
-                                      " an adjacency matrix! If you'd like to calculate a new path, simply choose new"
-                                      " starting and ending locations and hit the button again!")
+                                     "Welcome to Getting Gators Around Gainesville! This application uses Dijkstra's "
+                                     "shortest path algorithm to figure out how to get you to where you want to go"
+                                     " in the shortest path possible! Select a starting point and destination using "
+                                     "the option menus, then hit calculate, and the optimal path will be shown! \n \n"
+                                     "After you've calculated your optimal path, you can compare the calculation"
+                                     " times of this path between graph representations of an adjacency list versus"
+                                     " an adjacency matrix! If you'd like to calculate a new path, simply choose new"
+                                     " starting and ending locations and hit the button again!")
         self.description_text.configure(state="disabled")
 
         # middle frame!
 
         self.middle_frame = CTkFrame(master=self, fg_color="transparent")
         self.map_label = CTkLabel(master=self.middle_frame, textvariable=self.map_caption)
-        self.map_image = CTkImage(light_image=Image.open("DSAp3startimg.png"), dark_image=Image.open("DSAp3startimg.png"), size=(600, 300))
+        self.map_image = CTkImage(light_image=Image.open("DSAp3startimg.png"),
+                                  dark_image=Image.open("DSAp3startimg.png"), size=(600, 300))
         self.map_image_label = CTkLabel(master=self.middle_frame, image=self.map_image, text="")
 
         self.middle_grid_frame = CTkFrame(master=self.middle_frame, fg_color="transparent")
@@ -58,7 +62,8 @@ class MainScreen(CTk):
                                           border_color=BLUE, button_color=BLUE, button_hover_color=LIGHT_BLUE)
         self.destination_combobox_label = CTkLabel(master=self.middle_grid_frame, text="Destination")
         self.destination_combobox = CTkComboBox(master=self.middle_grid_frame, values=LOCATION_NAMES,
-                                                border_color=ORANGE, button_color=ORANGE, button_hover_color=LIGHT_ORANGE)
+                                                border_color=ORANGE, button_color=ORANGE,
+                                                button_hover_color=LIGHT_ORANGE)
         self.calculate_button = CTkButton(master=self.middle_frame,
                                           command=lambda: self.calculate_path(self.start_combobox.get(),
                                                                               self.destination_combobox.get()),
@@ -67,7 +72,22 @@ class MainScreen(CTk):
         # right side!
 
         self.right_frame = CTkFrame(master=self)
-
+        self.results_label = CTkLabel(master=self.right_frame, text="Results", font=(None, 25))
+        self.results_text = CTkTextbox(master=self.right_frame, fg_color="transparent", wrap=WORD)
+        self.results_text.insert("0.0", "Below are the times it took to calculate the optimal path using the two graph "
+                                        "representations.")
+        self.results_text.configure(state="disabled")
+        self.adjacency_list_label = CTkLabel(master=self.right_frame, text="Adjacency List Calculation Time:")
+        self.adjacency_list_results_label = CTkLabel(master=self.right_frame,
+                                                     textvariable=self.adjacency_list_results_text)
+        self.adjacency_matrix_label = CTkLabel(master=self.right_frame,
+                                               text="Adjacency Matrix Calculation Time:")
+        self.adjacency_matrix_results_label = CTkLabel(master=self.right_frame,
+                                                       textvariable=self.adjacency_matrix_results_text)
+        self.results_additional_text = CTkTextbox(master=self.right_frame, fg_color="transparent", wrap=WORD)
+        self.results_additional_text.insert("0.0", "Some other text to describe what's going on and/or"
+                                                   " analyze results, not sure what to put here yet.")
+        self.results_additional_text.configure(state="disabled")
 
         # PLACING WIDGETS
 
@@ -96,12 +116,18 @@ class MainScreen(CTk):
         self.start_combobox.grid(row=1, column=0)
         self.destination_combobox_label.grid(row=0, column=1)
         self.destination_combobox.grid(row=1, column=1)
+        self.calculate_button.pack(side="bottom", pady=50)
 
         # right frame
 
         self.right_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1.00)
-        self.calculate_button.pack(side="bottom", pady=50)
-
+        self.results_label.pack(pady=30, side="top")
+        self.results_text.pack(pady=5, side="top")
+        self.adjacency_list_label.pack(pady=5, side="top")
+        self.adjacency_list_results_label.pack(pady=5, side="top")
+        self.adjacency_matrix_label.pack(pady=5, side="top")
+        self.adjacency_matrix_results_label.pack(pady=5, side="top")
+        self.results_additional_text.pack(pady=15, side="top")
 
     # methods!
 
