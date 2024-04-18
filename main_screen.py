@@ -1,5 +1,6 @@
 from customtkinter import *
 from PIL import Image
+from location_coords import LOCATION_NAMES
 
 BLUE = "#6e78ff"
 LIGHT_BLUE = "#6C8DFA"
@@ -51,9 +52,11 @@ class MainScreen(CTk):
 
         self.middle_grid_frame = CTkFrame(master=self.middle_frame, fg_color="transparent")
         self.start_combobox_label = CTkLabel(master=self.middle_grid_frame, text="Starting Location")
-        self.start_combobox = CTkComboBox(master=self.middle_grid_frame, border_color=BLUE, button_color=BLUE, button_hover_color=LIGHT_BLUE)
+        self.start_combobox = CTkComboBox(master=self.middle_grid_frame, values=LOCATION_NAMES,
+                                          button_color=BLUE, button_hover_color=LIGHT_BLUE)
         self.destination_combobox_label = CTkLabel(master=self.middle_grid_frame, text="Destination")
-        self.destination_combobox = CTkComboBox(master=self.middle_grid_frame, border_color=ORANGE, button_color=ORANGE, button_hover_color=LIGHT_ORANGE)
+        self.destination_combobox = CTkComboBox(master=self.middle_grid_frame, values=LOCATION_NAMES,
+                                                border_color=ORANGE, button_color=ORANGE, button_hover_color=LIGHT_ORANGE)
 
         # right side!
 
