@@ -8,6 +8,8 @@ ORANGE = "#F89246"
 LIGHT_ORANGE = "#FFB449"
 GREEN = "#447241"
 LIGHT_GREEN = "#60a05b"
+GRAY = "#262626"
+LIGHT_GRAY = "#333333"
 
 
 class MainScreen(CTk):
@@ -25,11 +27,11 @@ class MainScreen(CTk):
         # CTk variables for interactive text and menus
 
         self.map_caption = StringVar(value="Map of Gainesville using Bridges Open Street Map Data")
-        self.adjacency_list_results_text = StringVar(value="Not Calculated")
-        self.adjacency_matrix_results_text = StringVar(value="Not Calculated")
+        self.adjacency_list_results_text = StringVar(value="")
+        self.adjacency_matrix_results_text = StringVar(value="")
 
         # left side!
-        self.left_frame = CTkFrame(master=self)
+        self.left_frame = CTkFrame(master=self, fg_color=GRAY, bg_color=GRAY)
         self.title_text = CTkTextbox(master=self.left_frame, fg_color="transparent", wrap=WORD, font=(None, 32),
                                      activate_scrollbars=False)
         self.title_text.insert("0.0", "Getting Gators Around Gainesville")
@@ -50,7 +52,7 @@ class MainScreen(CTk):
 
         # middle frame!
 
-        self.middle_frame = CTkFrame(master=self, fg_color="transparent")
+        self.middle_frame = CTkFrame(master=self, fg_color=LIGHT_GRAY, bg_color=LIGHT_GRAY)
         self.map_label = CTkLabel(master=self.middle_frame, textvariable=self.map_caption)
         self.map_image = CTkImage(light_image=Image.open("DSAp3startimg.png"),
                                   dark_image=Image.open("DSAp3startimg.png"), size=(600, 300))
@@ -71,11 +73,11 @@ class MainScreen(CTk):
 
         # right side!
 
-        self.right_frame = CTkFrame(master=self)
+        self.right_frame = CTkFrame(master=self, fg_color=GRAY, bg_color=GRAY)
         self.results_label = CTkLabel(master=self.right_frame, text="Results", font=(None, 25))
         self.results_text = CTkTextbox(master=self.right_frame, fg_color="transparent", wrap=WORD)
-        self.results_text.insert("0.0", "Below are the times it took to calculate the optimal path using the two graph "
-                                        "representations.")
+        self.results_text.insert("0.0", "Below are the times it took to calculate the "
+                                        "optimal path using the two graph representations.")
         self.results_text.configure(state="disabled")
         self.adjacency_list_label = CTkLabel(master=self.right_frame, text="Adjacency List Calculation Time:")
         self.adjacency_list_results_label = CTkLabel(master=self.right_frame,
@@ -85,8 +87,9 @@ class MainScreen(CTk):
         self.adjacency_matrix_results_label = CTkLabel(master=self.right_frame,
                                                        textvariable=self.adjacency_matrix_results_text)
         self.results_additional_text = CTkTextbox(master=self.right_frame, fg_color="transparent", wrap=WORD)
-        self.results_additional_text.insert("0.0", "Some other text to describe what's going on and/or"
-                                                   " analyze results, not sure what to put here yet.")
+        self.results_additional_text.insert("0.0", "Some text to explain the results and time complexities "
+                                                   "of our chosen data structures, blah blah blah filling space to show"
+                                                   " how this will end up looking like.")
         self.results_additional_text.configure(state="disabled")
 
         # PLACING WIDGETS
@@ -122,12 +125,12 @@ class MainScreen(CTk):
 
         self.right_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1.00)
         self.results_label.pack(pady=30, side="top")
-        self.results_text.pack(pady=5, side="top")
-        self.adjacency_list_label.pack(pady=5, side="top")
-        self.adjacency_list_results_label.pack(pady=5, side="top")
-        self.adjacency_matrix_label.pack(pady=5, side="top")
-        self.adjacency_matrix_results_label.pack(pady=5, side="top")
-        self.results_additional_text.pack(pady=15, side="top")
+        self.results_text.place(relx=0.10, rely=0.20)
+        self.adjacency_list_label.place(relx=0.10, rely=0.40)
+        self.adjacency_list_results_label.place(relx=0.10, rely=0.45)
+        self.adjacency_matrix_label.place(relx=0.10, rely=0.55)
+        self.adjacency_matrix_results_label.place(relx=0.10, rely=0.60)
+        self.results_additional_text.place(relx=0.10, rely=0.7)
 
     # methods!
 
