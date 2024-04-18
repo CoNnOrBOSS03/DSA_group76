@@ -15,9 +15,7 @@ def getDistance(vertex, lat, lon):
 # can use this to figure out a defined vertex based on the location the user wants to start from/end at
 def getClosest(gr, lat, lon):
     # TODO
-    # thinking we iterate through all vertices, find the one where distance from desired coordinates and
-    # vertex coordinates is smallest, return it
-
+    # this makes sense but doesn't work, something wrong with what's passed in as gp
     vertices = gr.vertices
     current_closest_vertex = vertices[0]
     current_shortest_distance = 100  # arbitrary big number
@@ -91,7 +89,7 @@ def main():
     # root = getClosest(gr,
     #                      (osm_data.latitude_range[0]+osm_data.latitude_range[1])/2,
     #                      (osm_data.longitude_range[0]+osm_data.longitude_range[1])/2)  # sets origin to center of graph
-    # FIXME: getClosest doesn't work
+    # FIXME: getClosest doesn't work, uncomment for error message
     # root = getClosest(gr, TURLINGTON_HALL[0], TURLINGTON_HALL[1])  # sets origin to turlington
 
     # style_root(gr, root)
