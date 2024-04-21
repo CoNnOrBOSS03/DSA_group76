@@ -5,6 +5,7 @@ from location_coords import *
 import os
 import queue as Q
 
+gainesville_bounding_box = [29.69267, -82.38941, 29.65922, -82.32507]
 
 # helper function: returns distance between vertex and given coordinates using pythagorean theorem
 def getDistance(vertex, lat, lon):
@@ -32,9 +33,8 @@ def getClosest(gr, lat, lon):
 
 # styling the source vertex
 def style_root(gr, root):
-    # TODO
-    pass
-
+    gr.get_vertex(root).color = "crimson"
+    gr.get_vertex(root).opacity = 1.0
 
 # shortest path function
 def shortestPath(gr, root):
@@ -80,6 +80,9 @@ def main():
 
     # TODO: Get Data
     osm_data = data_source.get_osm_data("Gainesville, Florida", "residential")
+    # alternatively, use bounding box for more specified region
+    #osm_data = data_source.get_osm_data(gainesville_bounding_box[0], gainesville_bounding_box[1],
+                                        #gainesville_bounding_box[2], gainesville_bounding_box[3], "residential")
 
     gr = osm_data.get_graph()
     gr.force_large_visualization(True)
@@ -89,12 +92,14 @@ def main():
     # root = getClosest(gr,
     #                      (osm_data.latitude_range[0]+osm_data.latitude_range[1])/2,
     #                      (osm_data.longitude_range[0]+osm_data.longitude_range[1])/2)  # sets origin to center of graph
-    # FIXME: getClosest doesn't work, uncomment for error message
     root = getClosest(gr, LocationDictionary["Turlington Hall"][0], LocationDictionary["Turlington Hall"][1])  # sets origin to turlington
     vertex = gr.get_vertex_data(root)
-    print(f"[{vertex.latitude}, {vertex.longitude}]")
+    #print(f"[{vertex.latitude}, {vertex.longitude}]")
 
-    # style_root(gr, root)
+    for key in gr.vertices:
+        gr.get_vertex(key).opacity = 0.5
+
+    style_root(gr, root)
     bridges.set_data_structure(gr)
     bridges.visualize()
 
