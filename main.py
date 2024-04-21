@@ -8,10 +8,10 @@ import queue as Q
 
 # helper function: returns distance between vertex and given coordinates using pythagorean theorem
 def getDistance(vertex, lat, lon):
-    return sqrt((vertex.latitude - lat) ** 2 + (vertex.longtitude - lon) ** 2)
+    return sqrt((vertex.latitude - lat) ** 2 + (vertex.longitude - lon) ** 2)
 
 
-# return the vertex the closest to some lat/lon coordinate
+# return the key to the closest vertex to a given point
 # can use this to figure out a defined vertex based on the location the user wants to start from/end at
 def getClosest(gr, lat, lon):
     # TODO
@@ -22,7 +22,7 @@ def getClosest(gr, lat, lon):
 
     # find distance from using pythagorean theorem ig right?
     for vertex in vertices:
-        distance = getDistance(current_closest_vertex, lat, lon)
+        distance = getDistance(gr.get_vertex_data(vertex), lat, lon)
         if distance < current_shortest_distance:
             current_closest_vertex = vertex
             current_shortest_distance = distance
@@ -90,7 +90,9 @@ def main():
     #                      (osm_data.latitude_range[0]+osm_data.latitude_range[1])/2,
     #                      (osm_data.longitude_range[0]+osm_data.longitude_range[1])/2)  # sets origin to center of graph
     # FIXME: getClosest doesn't work, uncomment for error message
-    # root = getClosest(gr, TURLINGTON_HALL[0], TURLINGTON_HALL[1])  # sets origin to turlington
+    root = getClosest(gr, LocationDictionary["Turlington Hall"][0], LocationDictionary["Turlington Hall"][1])  # sets origin to turlington
+    vertex = gr.get_vertex_data(root)
+    print(f"[{vertex.latitude}, {vertex.longitude}]")
 
     # style_root(gr, root)
     bridges.set_data_structure(gr)
