@@ -98,6 +98,7 @@ def main():
 
     # TODO: Uncomment for part 3
     # #run Shortest Path
+    # Shouldn't we give an option between Dijkstra's algorithm and another shortest path algorithm so that we can compare the two? - Andres
     # (distance,parent) = shortestPath(gr,root)
 
     # #style vertices based on distances
