@@ -41,12 +41,12 @@ class MainScreen(CTk):
         self.description_text = CTkTextbox(master=self.left_frame, fg_color="transparent", wrap=WORD)
         self.description_text.insert("0.0",
                                      "Welcome to Getting Gators Around Gainesville! This application uses Dijkstra's "
-                                     "shortest path algorithm to figure out how to get you to where you want to go"
-                                     " in the shortest path possible! Select a starting point and destination using "
-                                     "the option menus, then hit calculate, and the optimal path will be shown! \n \n"
+                                     "shortest path algorithm to figure out how long the shortest path is from your "
+                                     "starting location to your destination! Select a starting point and destination using "
+                                     "the option menus, then hit calculate, and distance of the optimal path will be shown! \n \n"
                                      "After you've calculated your optimal path, you can compare the calculation"
-                                     " times of this path between using sorted array heap versus "
-                                     "a fibonacci heap! If you'd like to calculate a new path, simply choose new"
+                                     " times of this path between using an array versus "
+                                     "a heap! If you'd like to calculate a new path, simply choose new"
                                      " starting and ending locations and hit the button again!")
         self.description_text.configure(state="disabled")
 
@@ -79,11 +79,11 @@ class MainScreen(CTk):
         self.results_text.insert("0.0", "Below are the times it took to calculate the "
                                         "optimal path using the two graph representations.")
         self.results_text.configure(state="disabled")
-        self.sorted_array_label = CTkLabel(master=self.right_frame, text="Sorted Array Heap\nCalculation Time:")
+        self.sorted_array_label = CTkLabel(master=self.right_frame, text="Array Calculation Time:")
         self.sorted_array_results_label = CTkLabel(master=self.right_frame,
                                                      textvariable=self.sorted_array_results_text)
         self.fibonacci_label = CTkLabel(master=self.right_frame,
-                                               text="Fibonacci Heap\nCalculation Time:")
+                                               text="Heap Calculation Time:")
         self.fibonacci_results_label = CTkLabel(master=self.right_frame,
                                                        textvariable=self.fibonacci_results_text)
         self.results_additional_text = CTkTextbox(master=self.right_frame, fg_color="transparent", wrap=WORD)
@@ -126,10 +126,10 @@ class MainScreen(CTk):
         self.right_frame.place(relx=0.75, rely=0, relwidth=0.25, relheight=1.00)
         self.results_label.pack(pady=30, side="top")
         self.results_text.place(relx=0.10, rely=0.20)
-        self.sorted_array_label.place(relx=0.10, rely=0.40)
-        self.sorted_array_results_label.place(relx=0.10, rely=0.45)
-        self.fibonacci_label.place(relx=0.10, rely=0.55)
-        self.fibonacci_results_label.place(relx=0.10, rely=0.60)
+        self.sorted_array_label.place(relx=0.20, rely=0.40)
+        self.sorted_array_results_label.place(relx=0.30, rely=0.45)
+        self.fibonacci_label.place(relx=0.20, rely=0.55)
+        self.fibonacci_results_label.place(relx=0.30, rely=0.60)
         self.results_additional_text.place(relx=0.10, rely=0.7)
 
     # methods!
