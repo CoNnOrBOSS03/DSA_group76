@@ -15,8 +15,6 @@ def getDistance(vertex, lat, lon):
 # return the key to the closest vertex to a given point
 # can use this to figure out a defined vertex based on the location the user wants to start from/end at
 def getClosest(gr, lat, lon):
-    # TODO
-    # this makes sense but doesn't work, something wrong with what's passed in as gp
     vertices = gr.vertices
     current_closest_vertex = vertices[0]
     current_shortest_distance = 100  # arbitrary big number
@@ -37,13 +35,30 @@ def style_root(gr, root):
     gr.get_vertex(root).opacity = 1.0
 
 # shortest path function
-def shortestPath(gr, root):
-    distance = {}
-    parent = {}
+def shortestPathArray(gr, root):
+
+    vertices = gr.vertices
+
+    # need to initialize the arrays and sets
+    # set S: initially empty
+    computed_vertices = set()
+    # set V-S: need to place all vertices into it
+    vertices_to_process = set()
+    for vertex in vertices:
+        vertices_to_process.add(vertex)
+    # d[v]: need to set all to infinity besides source, which will be set to 0
+    distances = [float('inf')] * len(vertices)
+    distances[root] = 0
+    # p[v]: need to set all to -1
+    predecessors = [-1] * len(vertices)
+
+    # time for the actual algorithm
+
+
 
     # TODO
 
-    return (distance, parent)
+    #return (distance, parent)
 
 
 # style the graph based on distance
