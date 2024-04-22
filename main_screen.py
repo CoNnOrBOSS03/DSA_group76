@@ -152,9 +152,6 @@ class MainScreen(CTk):
         bridges.set_description("Shows residential paths in Gainesville!")
 
         osm_data = data_source.get_osm_data("Gainesville, Florida", "residential")
-        # alternatively, use bounding box for more specified region
-        # osm_data = data_source.get_osm_data(gainesville_bounding_box[0], gainesville_bounding_box[1],
-        # gainesville_bounding_box[2], gainesville_bounding_box[3], "residential")
 
         gr = osm_data.get_graph()
         gr.force_large_visualization(True)
