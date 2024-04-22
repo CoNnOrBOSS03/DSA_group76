@@ -111,12 +111,12 @@ class Heap():
         if self.pos[v] < self.size:
             return True
         return False
- 
- 
-def printArr(dist, n):
-    print ("Vertex\tDistance from source")
-    for i in range(n):
-        print ("%d\t\t%d" % (i,dist[i]))
+
+    # ANDRES - This should be useless since we aren't printing this
+    # def printArr(dist, n):
+        # print ("Vertex\tDistance from source")
+        # for i in range(n):
+            # print ("%d\t\t%d" % (i,dist[i]))
  
  
 class Graph():
@@ -203,5 +203,5 @@ class Graph():
                         # update distance value 
                         # in min heap also
                         minHeap.decreaseKey(v, dist[v])
- 
+        # ANDRES - should return distance and parent instead of sending to printArr
         printArr(dist,V)
