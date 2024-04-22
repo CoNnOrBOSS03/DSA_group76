@@ -122,7 +122,7 @@ def ShortestPathHeap(gr, root, destination):
 
         # FIXME: make work with heap
         minVertexID = heappop(not_computed_distances_heap)[1][0]
-        print(minVertexID)
+        #print(minVertexID)
         # make the distance at that index arbitrary large so we don't reselect it
         not_computed_distances[minVertexID] = 1e6
 
