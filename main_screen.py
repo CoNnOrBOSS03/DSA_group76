@@ -39,7 +39,7 @@ class MainScreen(CTk):
         self.title_text.insert("0.0", "Getting Gators Around Gainesville")
         self.title_text.configure(state="disabled")
         self.group_label = CTkLabel(master=self.left_frame, text="Group 76: Hogtown Wayfinders")
-        self.names_label = CTkLabel(master=self.left_frame, text="Connor Verra, Andres Cortes")
+        self.names_label = CTkLabel(master=self.left_frame, text="Connor Verra")
         self.description_text = CTkTextbox(master=self.left_frame, fg_color="transparent", wrap=WORD)
         self.description_text.insert("0.0",
                                      "Welcome to Getting Gators Around Gainesville! This application uses Dijkstra's "
