@@ -1,6 +1,7 @@
 from customtkinter import *
 from PIL import Image
 from location_coords import LOCATION_NAMES
+from main_functions import *
 
 BLUE = "#6e78ff"
 LIGHT_BLUE = "#6C8DFA"
@@ -29,6 +30,7 @@ class MainScreen(CTk):
         self.map_caption = StringVar(value="Map of Gainesville using Bridges Open Street Map Data")
         self.sorted_array_results_text = StringVar(value="")
         self.fibonacci_results_text = StringVar(value="")
+        self.distance_results_text = StringVar(value="")
 
         # left side!
         self.left_frame = CTkFrame(master=self, fg_color=GRAY, bg_color=GRAY)
@@ -77,7 +79,8 @@ class MainScreen(CTk):
         self.results_label = CTkLabel(master=self.right_frame, text="Results", font=(None, 25))
         self.results_text = CTkTextbox(master=self.right_frame, fg_color="transparent", wrap=WORD)
         self.results_text.insert("0.0", "Below are the times it took to calculate the "
-                                        "optimal path using the two graph representations.")
+                                        "optimal path using the two graph representations, as well as the "
+                                        "calculated distance.")
         self.results_text.configure(state="disabled")
         self.sorted_array_label = CTkLabel(master=self.right_frame, text="Array Calculation Time:")
         self.sorted_array_results_label = CTkLabel(master=self.right_frame,
@@ -86,11 +89,15 @@ class MainScreen(CTk):
                                                text="Heap Calculation Time:")
         self.fibonacci_results_label = CTkLabel(master=self.right_frame,
                                                        textvariable=self.fibonacci_results_text)
-        self.results_additional_text = CTkTextbox(master=self.right_frame, fg_color="transparent", wrap=WORD)
-        self.results_additional_text.insert("0.0", "Some text to explain the results and time complexities "
-                                                   "of our chosen data structures, blah blah blah filling space to show"
-                                                   " how this will end up looking like.")
-        self.results_additional_text.configure(state="disabled")
+        # self.results_additional_text = CTkTextbox(master=self.right_frame, fg_color="transparent", wrap=WORD)
+        # self.results_additional_text.insert("0.0", "Some text to explain the results and time complexities "
+        #                                            "of our chosen data structures, blah blah blah filling space to show"
+        #                                            " how this will end up looking like.")
+        # self.results_additional_text.configure(state="disabled")
+        self.distance_label = CTkLabel(master=self.right_frame,
+                                        text="Calculated Distance:")
+        self.distance_results_label = CTkLabel(master=self.right_frame,
+                                                textvariable=self.distance_results_text)
 
         # PLACING WIDGETS
 
@@ -130,7 +137,9 @@ class MainScreen(CTk):
         self.sorted_array_results_label.place(relx=0.30, rely=0.45)
         self.fibonacci_label.place(relx=0.20, rely=0.55)
         self.fibonacci_results_label.place(relx=0.30, rely=0.60)
-        self.results_additional_text.place(relx=0.10, rely=0.7)
+        # self.results_additional_text.place(relx=0.10, rely=0.7)
+        self.distance_label.place(relx=0.20, rely=0.70)
+        self.distance_results_label.place(relx=0.30, rely=0.75)
 
     # methods!
 
@@ -138,9 +147,29 @@ class MainScreen(CTk):
         # get values from combo boxes
         # check if either are null, if so display error message
         # if not, pass to backend for path calculation
-        print(f"Calculating path from {start} to {destination}!")
+        bridges = Bridges(209, "CoNnOrBOSS03", "996702144742")
+        bridges.set_title("Graph : Gainesville Map Graph Test")
+        bridges.set_description("Shows residential paths in Gainesville!")
+
+        osm_data = data_source.get_osm_data("Gainesville, Florida", "residential")
+        # alternatively, use bounding box for more specified region
+        # osm_data = data_source.get_osm_data(gainesville_bounding_box[0], gainesville_bounding_box[1],
+        # gainesville_bounding_box[2], gainesville_bounding_box[3], "residential")
+
+        gr = osm_data.get_graph()
+        gr.force_large_visualization(True)
+
+        root = getClosest(gr, LocationDictionary[start][0], LocationDictionary[start][1])
+        destination = getClosest(gr, LocationDictionary[destination][0], LocationDictionary[destination][1])
+
+        for key in gr.vertices:
+            gr.get_vertex(key).opacity = 0.5
+
+        gr.get_vertex(root).color = "blue"
+        gr.get_vertex(root).color = "orange"
+
+        distance, time1 = shortestPathArray(gr, root, destination)
+        self.distance_results_text.set(f"{str(round((distance / 1609), 2))} miles")
+        self.sorted_array_results_text.set(f"{str(time1)} ms")
 
 
-main_screen = MainScreen()
-
-main_screen.mainloop()

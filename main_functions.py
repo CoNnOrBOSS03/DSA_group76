@@ -155,7 +155,7 @@ def main():
 
     distance, time1 = shortestPathArray(gr, root, destination)
 
-    print(f"distance = {distance}, took {time1} milliseconds to calculate")
+    # print(f"distance = {distance}, took {time1} milliseconds to calculate")
 
     # #style vertices based on distances
     # style_distance(gr, distance)
@@ -174,6 +174,3 @@ def main():
     # bridges.set_data_structure(gr)
     # bridges.visualize()
 
-
-if __name__ == "__main__":
-    main()
