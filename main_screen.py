@@ -172,4 +172,8 @@ class MainScreen(CTk):
         self.distance_results_text.set(f"{str(round((distance / 1609), 2))} miles")
         self.sorted_array_results_text.set(f"{str(time1)} ms")
 
+        time2 = ShortestPathHeap(gr, root, destination)
+
+        self.fibonacci_results_text.set(f"{str(time2)} ms")
+
 

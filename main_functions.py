@@ -2,10 +2,12 @@ from bridges.data_src_dependent import data_source
 from bridges.bridges import Bridges
 from math import sqrt
 from location_coords import *
+from heapq import *
 import time
 
 
 gainesville_bounding_box = [29.69267, -82.38941, 29.65922, -82.32507]
+
 
 # helper function: returns distance between vertex and given coordinates using pythagorean theorem
 def getDistance(vertex, lat, lon):
@@ -82,23 +84,81 @@ def shortestPathArray(gr, root, destination):
                 distances[edge.tov] = distances[edge.fromv] + edge._edge_data
                 not_computed_distances[edge.tov] = distances[edge.fromv] + edge._edge_data
                 predecessors[edge.tov] = edge.fromv
-                print(f"Predecessor: {predecessors[edge.tov]}")
-                print(f"Distance: {distances[edge.tov]}")
+                #print(f"Predecessor: {predecessors[edge.tov]}")
+               # print(f"Distance: {distances[edge.tov]}")
 
-    print(f"Distance of chosen path is {distances[destination]}")
+    #print(f"Distance of chosen path is {distances[destination]}")
+    return distances[destination], round((round(time.time() - start_time, 10)) * 10e3, 3)
+
+def ShortestPathHeap(gr, root, destination):
+
+    vertices = gr.vertices
+    start_time = time.time()
+
+    # need to initialize the arrays and sets
+    # set S: initially empty
+    # need to save distances somehow with the vertices to process
+    computed_vertices = set()
+    # set V-S: need to place all vertices into it
+    vertices_to_process = set()
+    for vertex in vertices:
+        vertices_to_process.add(vertex)
+    # d[v]: need to set all to infinity besides source, which will be set to 0
+    distances = [1e6] * len(vertices)
+    not_computed_distances = [(vertex, 1e6) for vertex in vertices]
+    not_computed_distances[root] = (root, 0)
+    not_computed_distances_heap = [(item[1], item) for item in not_computed_distances]
+    heapify(not_computed_distances_heap)
+    distances[root] = 0
+    # p[v]: need to set all to -1
+    predecessors = [-1] * len(vertices)
+
+    # time for the actual algorithm
+
+    while destination not in computed_vertices:
+
+        # first, start w/ vertex w/ minimum distance in d[v], THAT HASN'T BEEN COMPUTED, and add to set S
+        # index should directly correlate with vertex id so should work?
+
+        # FIXME: make work with heap
+        minVertexID = heappop(not_computed_distances_heap)[1][0]
+        print(minVertexID)
+        # make the distance at that index arbitrary large so we don't reselect it
+        not_computed_distances[minVertexID] = 1e6
+
+        # need to move vertex from not computed set to computed set
+        computed_vertices.add(minVertexID)
+
+        # print(computed_vertices)
+
+        # now, need to process edges adjacent to the first vertex, and update distances based on relaxation!
+
+        # gets outgoing edges
+        for edge in gr.out_going_edge_set_of(minVertexID):
+            # relaxation!
+            if distances[edge.tov] > distances[edge.fromv] + edge._edge_data:
+                distances[edge.tov] = distances[edge.fromv] + edge._edge_data
+                not_computed_distances[edge.tov] = distances[edge.fromv] + edge._edge_data
+                predecessors[edge.tov] = edge.fromv
+                # print(f"Predecessor: {predecessors[edge.tov]}")
+            # print(f"Distance: {distances[edge.tov]}")
+
+    # print(f"Distance of chosen path is {distances[destination]}")
 
 
     # color path
     dest = destination
     source = predecessors[destination]
 
-    while dest != root:
-        gr.get_link_visualizer(source, dest).color = "orange"
-        gr.get_link_visualizer(source, dest).thickness = 5
-        dest = source
-        source = predecessors[dest]
+    # while dest != root:
+    #     gr.get_link_visualizer(source, dest).color = "orange"
+    #     gr.get_link_visualizer(source, dest).thickness = 5
+    #     dest = source
+    #     source = predecessors[dest]
 
-    return distances[destination], round((round(time.time() - start_time, 10)) * 10e3, 3)
+    #print(round((round(time.time() - start_time, 10)) * 10e3, 3))
+
+    return round((round(time.time() - start_time, 10)) * 10e3, 3)
 
 
 # style the graph based on distance
@@ -153,9 +213,9 @@ def main():
     style_root(gr, root)
 
 
-    distance, time1 = shortestPathArray(gr, root, destination)
+    time = ShortestPathHeap(gr, root, destination)
 
-    # print(f"distance = {distance}, took {time1} milliseconds to calculate")
+    print(f"time = {time}")
 
     # #style vertices based on distances
     # style_distance(gr, distance)
@@ -173,4 +233,3 @@ def main():
 
     # bridges.set_data_structure(gr)
     # bridges.visualize()
-
